@@ -5,6 +5,7 @@ import styles from './MainLayout.module.scss';
 import MouseTrail from '../components/ui/MouseTrail';
 import CustomCursor from '../components/ui/CustomCursor';
 import MobileMusicPlayer from '../components/ui/MobileMusicPlayer';
+import MusicNotesParticles from '../components/ui/MusicNotesParticles';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <Background3D />
       <MouseTrail />
       <CustomCursor />
+      <MusicNotesParticles />
       <Navbar />
       <MobileMusicPlayer />
       <main className={styles.content}>

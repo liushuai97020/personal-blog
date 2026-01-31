@@ -51,9 +51,9 @@ export const MOCK_FEED_DATA: FeedItemData[] = [
     content: {
       text: '周末去公园采风，捕捉到了一些温柔的光影。🌿📷',
       images: [
-        'https://images.unsplash.com/photo-1490750967868-bcdf92dd8364?q=80&w=800&auto=format&fit=crop', // Landscape
+        'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=800&auto=format&fit=crop', // Landscape
         'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop', // Beach
-        'https://images.unsplash.com/photo-1519681393792-c88543f6cb4f?q=80&w=800&auto=format&fit=crop', // Portrait
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop', // Portrait
         'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=800&auto=format&fit=crop', // Nature
       ]
     },

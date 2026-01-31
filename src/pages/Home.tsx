@@ -25,7 +25,7 @@ const Home = () => {
                     Let's keep the "Welcome" text but maybe compact? Or just Feed.
                 */}
                  <header style={{ marginBottom: '2rem', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>我的个人空间</h1>
+                    <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>我的最新动态</h1>
                     <p style={{ opacity: 0.7 }}>欢迎来到我的数字花园。</p>
                 </header>
                 

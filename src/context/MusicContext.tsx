@@ -27,7 +27,7 @@ const MusicContext = createContext<MusicContextType | undefined>(undefined);
 export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [playlist, setPlaylist] = useState<Track[]>([]);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(true); // Default to true for auto-play intent
     const [isLoading, setIsLoading] = useState(true);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -39,9 +39,7 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                 const data = await res.json();
                 if (Array.isArray(data) && data.length > 0) {
                     setPlaylist(data);
-                    // setIsPlaying(true); // Disable auto-play by default context, user can trigger it or we can enable it
-                    // The user requested seamless play, so auto-play on load is fine if policy allows
-                    setIsPlaying(true); 
+                    // No need to set isPlaying here as it's true by default
                 } else {
                     console.warn("Empty playlist or API error");
                 }
@@ -64,12 +62,44 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         if (isPlaying) {
             audioRef.current.play().catch(e => {
                 console.warn("Autoplay / Play prevented", e);
-                setIsPlaying(false);
+                // We keep isPlaying true, the interaction listener will catch it
             });
         } else {
             audioRef.current.pause();
         }
     }, [isPlaying, currentTrackIndex, currentTrack]);
+
+    // Autoplay Workaround: Trigger play on first user interaction
+    useEffect(() => {
+        const startAudio = () => {
+            if (audioRef.current && isPlaying) {
+                // Try to play even if currentTrack is still being resolved by React
+                audioRef.current.play()
+                    .then(() => {
+                        console.log("Autoplay successful after interaction");
+                        // Only remove listeners once we actually succeed
+                        window.removeEventListener('click', startAudio);
+                        window.removeEventListener('touchstart', startAudio);
+                        window.removeEventListener('mousedown', startAudio);
+                    })
+                    .catch(err => {
+                        // If it fails (e.g. no src yet), we don't remove listener
+                        console.warn("Autoplay attempt failed or blocked:", err.message);
+                    });
+            }
+        };
+
+        // Listen for ANY interaction
+        window.addEventListener('click', startAudio);
+        window.addEventListener('touchstart', startAudio);
+        window.addEventListener('mousedown', startAudio);
+
+        return () => {
+            window.removeEventListener('click', startAudio);
+            window.removeEventListener('touchstart', startAudio);
+            window.removeEventListener('mousedown', startAudio);
+        };
+    }, [isPlaying, currentTrack]); // Re-bind when track changes to ensure it has a valid target
 
     const togglePlay = () => {
         if (!currentTrack) return;

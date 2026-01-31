@@ -23,7 +23,8 @@ const MobileMusicPlayer: React.FC = () => {
 
     if (isLoading || !currentTrack) return null;
 
-    // Spotify/QQ Music style green for light mode
+    // Color logic for the note icon: Green for light mode, Darker Purple for dark mode
+    const noteIconColor = theme === 'light' ? '#1ed760' : '#7c3aed';
 
     return (
         <div className={styles.floatingWrapper} ref={constraintsRef}>
@@ -44,7 +45,7 @@ const MobileMusicPlayer: React.FC = () => {
                         drag="y"
                         dragConstraints={{
                             top: - (window.innerHeight - 200),
-                            bottom: -20 // Smaller gap from screen bottom
+                            bottom: -20 
                         }}
                         dragElastic={0.05}
                     >
@@ -53,12 +54,14 @@ const MobileMusicPlayer: React.FC = () => {
                             transition={{ repeat: Infinity, duration: 2 }}
                             style={{ 
                                 display: 'flex',
-                                // CSS filter trick to turn the purple 🎵 emoji green in light mode
-                                // hue-rotate(150deg) + high saturation for a vibrant QQ Music style green
-                                filter: theme === 'light' ? 'hue-rotate(340deg) saturate(3) brightness(1.1)' : 'none'
+                                color: noteIconColor
                             }}
                         >
-                            🎵
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M9 18V5l12-2v13" />
+                                <circle cx="6" cy="18" r="3" />
+                                <circle cx="18" cy="16" r="3" />
+                            </svg>
                         </motion.span>
                     </motion.button>
                 ) : (
@@ -85,11 +88,30 @@ const MobileMusicPlayer: React.FC = () => {
                         </div>
 
                         <div className={styles.controls}>
-                            <button onClick={prevTrack} className={styles.controlBtn}>⏮</button>
-                            <button onClick={togglePlay} className={`${styles.controlBtn} ${styles.playBtn}`}>
-                                {isPlaying ? "⏸" : "▶"}
+                            <button onClick={prevTrack} className={styles.controlBtn}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="19 20 9 12 19 4 19 20" />
+                                    <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                </svg>
                             </button>
-                            <button onClick={nextTrack} className={styles.controlBtn}>⏭</button>
+                            <button onClick={togglePlay} className={`${styles.controlBtn} ${styles.playBtn}`}>
+                                {isPlaying ? (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                        <rect x="6" y="4" width="4" height="16" />
+                                        <rect x="14" y="4" width="4" height="16" />
+                                    </svg>
+                                ) : (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                        <polygon points="5 3 19 12 5 21 5 3" />
+                                    </svg>
+                                )}
+                            </button>
+                            <button onClick={nextTrack} className={styles.controlBtn}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="5 4 15 12 5 20 5 4" />
+                                    <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                </svg>
+                            </button>
                         </div>
                     </motion.div>
                 )}
