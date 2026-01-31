@@ -20,6 +20,11 @@ const MouseTrail: React.FC = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Disable on mobile/touch devices
+    if (window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768) {
+        return;
+    }
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 

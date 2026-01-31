@@ -15,6 +15,7 @@
     flex-direction: column;
     padding-top: 1rem;
     gap: 1rem;
+    width: 95%; // Increase width from 80% to 85%
   }
 }
 
@@ -32,6 +33,10 @@
   min-width: 0; 
   max-width: 1000px; // Ultrawide feed
   width: 100%;
+
+  @include mobile {
+    width: 100%; // Takes full width of parent (85%)
+  }
 }
 
 .sidebarRight {

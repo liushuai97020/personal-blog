@@ -3,13 +3,17 @@ import { useTheme } from '../../context/ThemeContext';
 import { motion } from 'framer-motion';
 import styles from './ThemeToggle.module.scss';
 
-const ThemeToggle: React.FC = () => {
+interface ThemeToggleProps {
+  isNavbar?: boolean;
+}
+
+const ThemeToggle: React.FC<ThemeToggleProps> = ({ isNavbar }) => {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <motion.button
       onClick={toggleTheme}
-      className={styles.toggleBtn}
+      className={isNavbar ? styles.navToggleBtn : styles.toggleBtn}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       initial={{ opacity: 0 }}

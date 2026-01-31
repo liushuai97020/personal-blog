@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import GenericPage from './pages/GenericPage';
 import { ThemeProvider } from './context/ThemeContext';
 import ThemeToggle from './components/ui/ThemeToggle';
+import { MusicProvider } from './context/MusicContext';
 import './styles/main.scss'; // Ensure styles are imported
 
 // Content wrapper to handle route transitions
@@ -28,10 +29,12 @@ function App() {
   return (
     <Router>
         <ThemeProvider>
-            <ThemeToggle />
-            <MainLayout>
-                <AnimatedRoutes />
-            </MainLayout>
+            <MusicProvider>
+                <ThemeToggle />
+                <MainLayout>
+                    <AnimatedRoutes />
+                </MainLayout>
+            </MusicProvider>
         </ThemeProvider>
     </Router>
   );

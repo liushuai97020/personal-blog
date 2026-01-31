@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Navbar.module.scss';
-
-// Assuming ThemeToggle is in ./ThemeToggle based on previous file structure
+import ThemeToggle from './ThemeToggle';
 
 const modules = [
   { name: '最新动态', path: '/' },
@@ -38,18 +37,17 @@ const Navbar = () => {
               {item.name}
             </NavLink>
           ))}
-          {/* We can place generic controls here too if needed, but ThemeToggle is fixed elsewhere? */}
-          {/* If user wants toggle in navbar, we can move it here. 
-              Currently ThemeToggle is fixed at top-right. Let's keep it there or integrate.
-              For this design, let's keep ThemeToggle separate for now or integrate if requested.
-              User requested: "automatically collapse on mobile".
-          */}
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <button className={styles.mobileMenuBtn} onClick={toggleMenu}>
-          {isOpen ? '✕' : '☰'}
-        </button>
+        {/* Action Controls */}
+        <div className={styles.navActions}>
+          <ThemeToggle isNavbar={true} />
+          
+          {/* Mobile Hamburger Button */}
+          <button className={styles.mobileMenuBtn} onClick={toggleMenu}>
+            {isOpen ? '✕' : '☰'}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu Overlay */}

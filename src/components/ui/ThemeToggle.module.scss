@@ -51,4 +51,25 @@
   &:active {
     transform: scale(0.95);
   }
+
+  @include mobile {
+    display: none !important; // Hide floating button on mobile
+  }
+}
+
+.navToggleBtn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: none; // Hidden on desktop navbar by default (if placed there)
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+
+  @include mobile {
+    display: flex; // Only show in mobile navbar
+  }
 }
