@@ -1,0 +1,49 @@
+// Custom Cursor SVGs
+// Default: Star outline (Sparkle)
+$cursor-default: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 4 L19 13 L28 16 L19 19 L16 28 L13 19 L4 16 L13 13 Z" fill="none" stroke="white" stroke-width="1.5"/></svg>') 16 16, auto;
+
+// Pointer: Star filled
+$cursor-pointer: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 4 L20 12 L30 16 L20 20 L16 28 L12 20 L2 16 L12 12 Z" fill="white"/></svg>') 16 16, pointer;
+
+:root {
+  // Default (Dark Mode)
+  --bg-color: #0d1117;
+  --text-primary: #e6edf3;
+  --accent-color: #58a6ff;
+  --accent-rgb: 88, 166, 255; // For rgba usage
+  --bg-rgb: 13, 17, 23; 
+  --glass-bg: rgba(22, 27, 34, 0.7);
+  --glass-border: rgba(48, 54, 61, 0.5);
+}
+
+// Light Mode Override
+[data-theme='light'] {
+  --bg-color: #ffffff;
+  --bg-rgb: 255, 255, 255;
+  --text-primary: #24292f;
+  --accent-color: #0969da;
+  --accent-rgb: 9, 105, 218;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(208, 215, 222, 0.5);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  cursor: $cursor-default;
+}
+
+// Hide default cursor since we use CustomCursor
+body, a, button, [role="button"], input, select, textarea, label {
+  cursor: none !important;
+}
+
+// Ensure elements don't show default cursor
+* {
+  box-sizing: border-box;
+  cursor: none !important;
+}

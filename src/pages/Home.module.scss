@@ -1,0 +1,54 @@
+@use '../styles/mixins' as *;
+
+.homeContainer {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 2rem;
+  width: 80%; 
+  max-width: 2400px; // Ultra-wide
+  margin: 0 auto;
+  position: relative;
+  justify-content: space-between; // Push sidebars to edges
+
+  @include mobile {
+    flex-direction: column;
+    padding-top: 1rem;
+    gap: 1rem;
+  }
+}
+
+.sidebarLeft {
+  width: 320px; // Wider sidebars
+  flex-shrink: 0;
+
+  @include mobile {
+    display: none; 
+  }
+}
+
+.mainContent {
+  flex: 1;
+  min-width: 0; 
+  max-width: 1000px; // Ultrawide feed
+  width: 100%;
+}
+
+.sidebarRight {
+  width: 320px; // Wider sidebars
+  flex-shrink: 0;
+  
+  // Responsive: Hide on screens narrower than 960px
+  @media (max-width: 1240px) {
+    display: none;
+  }
+
+  @include mobile {
+    display: none; 
+  }
+}
+
+// Adjust FeedList style if needed inside Home
+.section {
+    width: 100%;
+}

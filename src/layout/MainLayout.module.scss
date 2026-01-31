@@ -1,0 +1,16 @@
+.container {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 100%; // Allowed Home to control width (was 1800px)
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--text-primary);
+}
