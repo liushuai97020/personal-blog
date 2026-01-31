@@ -26,18 +26,23 @@ const WeatherWidget = () => {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        // Step 1: Get location via IP (using freeipapi.com which supports HTTPS)
-        const locResponse = await fetch('https://freeipapi.com/api/json');
-        const locData = await locResponse.json();
-        
+        // Step 1: Get location via IP (ipapi.co supports HTTPS and CORS well)
         let lat = 39.9042;
         let lon = 116.4074;
         let city = '北京';
 
-        if (locData && locData.latitude) {
-          lat = locData.latitude;
-          lon = locData.longitude;
-          city = locData.cityName || '成都'; // cityName is the field in freeipapi
+        try {
+          const locResponse = await fetch('https://ipapi.co/json/');
+          if (locResponse.ok) {
+            const locData = await locResponse.json();
+            if (locData.latitude && locData.longitude) {
+              lat = locData.latitude;
+              lon = locData.longitude;
+              city = locData.city || city;
+            }
+          }
+        } catch (locError) {
+          console.warn('Location fetch failed, using default:', locError);
         }
         
         // Step 2: Get weather for these coordinates
@@ -59,6 +64,7 @@ const WeatherWidget = () => {
         setLoading(false);
       }
     };
+
 
     fetchWeather();
     
