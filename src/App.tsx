@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { AnimatePresence } from 'framer-motion';
 import MainLayout from './layout/MainLayout';
 import Home from './pages/Home';
+import About from './pages/About'; // Import the new About page
 import GenericPage from './pages/GenericPage';
 import { ThemeProvider } from './context/ThemeContext';
 import ThemeToggle from './components/ui/ThemeToggle';
@@ -19,7 +20,7 @@ const AnimatedRoutes = () => {
                 <Route path="/hot" element={<GenericPage title="热门博客" />} />
                 <Route path="/photos" element={<GenericPage title="摄影日记" />} />
                 <Route path="/tools" element={<GenericPage title="工具集" />} />
-                <Route path="/about" element={<GenericPage title="关于我" />} />
+                <Route path="/about" element={<About />} />
             </Routes>
         </AnimatePresence>
     );

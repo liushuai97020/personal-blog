@@ -3,6 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Navbar.module.scss';
 import ThemeToggle from './ThemeToggle';
+import WeatherWidget from './WeatherWidget';
 
 const modules = [
   { name: '最新动态', path: '/' },
@@ -41,7 +42,9 @@ const Navbar = () => {
 
         {/* Action Controls */}
         <div className={styles.navActions}>
+          <WeatherWidget />
           <ThemeToggle isNavbar={true} />
+
           
           {/* Mobile Hamburger Button */}
           <button className={styles.mobileMenuBtn} onClick={toggleMenu}>

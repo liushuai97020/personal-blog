@@ -14,7 +14,7 @@ const SidebarLeft = () => {
       <div className={styles.profileCard}>
         <div className={styles.avatarContainer}>
             <img 
-                src="https://i.ibb.co/tTZCyyN8/20260131164423-100-149.jpg" 
+                src="/avatar.jpg" 
                 alt="Avatar" 
                 className={styles.avatar}
             />

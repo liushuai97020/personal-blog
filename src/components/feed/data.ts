@@ -31,7 +31,7 @@ export const MOCK_FEED_DATA: FeedItemData[] = [
     author: {
       id: 1,
       name: '梁非凡',
-      avatar: 'https://i.ibb.co/tTZCyyN8/20260131164423-100-149.jpg'
+      avatar: '/avatar.jpg'
     },
     publishDate: '刚刚',
     content: {
@@ -45,7 +45,7 @@ export const MOCK_FEED_DATA: FeedItemData[] = [
     author: {
       id: 1,
       name: '梁非凡',
-      avatar: 'https://i.ibb.co/tTZCyyN8/20260131164423-100-149.jpg'
+      avatar: '/avatar.jpg'
     },
     publishDate: '2小时前',
     content: {
@@ -65,7 +65,7 @@ export const MOCK_FEED_DATA: FeedItemData[] = [
     author: {
       id: 1,
       name: '梁非凡',
-      avatar: 'https://i.ibb.co/tTZCyyN8/20260131164423-100-149.jpg'
+      avatar: '/avatar.jpg'
     },
     publishDate: '昨天',
     content: {
@@ -81,12 +81,36 @@ export const MOCK_FEED_DATA: FeedItemData[] = [
     author: {
       id: 1,
       name: '梁非凡',
-      avatar: 'https://i.ibb.co/tTZCyyN8/20260131164423-100-149.jpg'
+      avatar: '/avatar.jpg'
     },
     publishDate: '3天前',
     content: {
       text: '咖啡是程序员的血液 ☕️，今天又通过了一个复杂的测试用例！',
     },
     stats: { likes: 5, comments: 0 }
+  },
+  {
+    id: 5,
+    type: 'photo',
+    author: {
+      id: 1,
+      name: '梁非凡',
+      avatar: '/avatar.jpg'
+    },
+    publishDate: '上周末',
+    content: {
+      text: '整理了一下之前的风光摄影，大自然真的太震撼了。🏔️✨ #风光摄影 #摄影 #旅行',
+      images: [
+        'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1439853949127-fa647821eba0?q=80&w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?q=80&w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1433086966358-54859d0ed716?q=80&w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1505118380757-91f5f45d8de0?q=80&w=800&auto=format&fit=crop'
+      ]
+    },
+    stats: { likes: 128, comments: 24 }
   }
 ];
