@@ -26,18 +26,18 @@ const WeatherWidget = () => {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        // Step 1: Get location via IP (ip-api.com is free and no-key)
-        const locResponse = await fetch('http://ip-api.com/json/?lang=zh-CN');
+        // Step 1: Get location via IP (using freeipapi.com which supports HTTPS)
+        const locResponse = await fetch('https://freeipapi.com/api/json');
         const locData = await locResponse.json();
         
         let lat = 39.9042;
         let lon = 116.4074;
         let city = '北京';
 
-        if (locData.status === 'success') {
-          lat = locData.lat;
-          lon = locData.lon;
-          city = locData.city;
+        if (locData && locData.latitude) {
+          lat = locData.latitude;
+          lon = locData.longitude;
+          city = locData.cityName || '成都'; // cityName is the field in freeipapi
         }
         
         // Step 2: Get weather for these coordinates
