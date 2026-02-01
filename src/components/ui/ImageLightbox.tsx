@@ -22,7 +22,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({ isOpen, src, onClose }) =
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '100vw',
+          width: '100%',
           height: '100vh',
           // Improved background: Glassmorphism instead of plain black
           background: 'rgba(5, 5, 10, 0.6)', 

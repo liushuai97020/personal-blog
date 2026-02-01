@@ -1,13 +1,26 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useTheme } from '../../context/ThemeContext';
 
 const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { theme } = useTheme();
+
+  // Use MotionValues for smooth, performant movement without React re-renders
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Tighter spring for more responsive cursor (fixes "laggy" feel)
+  const springConfig = { damping: 30, stiffness: 1500 }; 
+  const cursorX = useSpring(mouseX, springConfig);
+  const cursorY = useSpring(mouseY, springConfig);
+
+  // Theme-aware colors
+  const cursorColor = theme === 'light' ? '#000000' : '#ffffff';
+  const shadowColor = theme === 'light' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)';
 
   useEffect(() => {
-    // Check if it's a mobile device or touch screen
     const checkMobile = () => {
       setIsMobile(window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768);
     };
@@ -15,11 +28,9 @@ const CustomCursor = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    const mouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX - 16);
+      mouseY.set(e.clientY - 16);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -37,15 +48,15 @@ const CustomCursor = () => {
       }
     };
 
-    window.addEventListener('mousemove', mouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
 
     return () => {
-      window.removeEventListener('mousemove', mouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('resize', checkMobile);
     };
-  }, []);
+  }, [mouseX, mouseY]);
 
   if (isMobile) return null;
 
@@ -55,10 +66,11 @@ const CustomCursor = () => {
         position: 'fixed',
         left: 0,
         top: 0,
-        zIndex: 200001, // Ensure above Lightbox (99999)
+        zIndex: 200001,
         pointerEvents: 'none',
-        x: mousePosition.x - 16, // Center the 32x32 star
-        y: mousePosition.y - 16,
+        x: cursorX,
+        y: cursorY,
+        willChange: 'transform',
       }}
     >
       <motion.svg
@@ -68,7 +80,7 @@ const CustomCursor = () => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         animate={{
-          scale: isHovering ? 1.5 : [1, 1.2, 1], // Pulse effect or hover enlargement
+          scale: isHovering ? 1.5 : [1, 1.2, 1],
           rotate: isHovering ? 180 : 0,
         }}
         transition={{
@@ -81,13 +93,13 @@ const CustomCursor = () => {
             duration: 0.5
           }
         }}
+        style={{ filter: `drop-shadow(0 0 4px ${shadowColor})` }}
       >
         <path
           d="M16 2 L19 11 L28 14 L19 17 L16 26 L13 17 L4 14 L13 11 Z"
-          fill={isHovering ? "white" : "none"}
-          stroke="white"
+          fill={isHovering ? cursorColor : "none"}
+          stroke={cursorColor}
           strokeWidth="1.5"
-          style={{ filter: "drop-shadow(0 0 4px rgba(255, 255, 255, 0.5))" }}
         />
       </motion.svg>
     </motion.div>

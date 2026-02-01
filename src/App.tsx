@@ -3,6 +3,8 @@ import { AnimatePresence } from 'framer-motion';
 import MainLayout from './layout/MainLayout';
 import Home from './pages/Home';
 import About from './pages/About'; // Import the new About page
+import HotBlogs from './pages/HotBlogs';
+import BlogDetail from './pages/BlogDetail';
 import GenericPage from './pages/GenericPage';
 import { ThemeProvider } from './context/ThemeContext';
 import ThemeToggle from './components/ui/ThemeToggle';
@@ -17,7 +19,8 @@ const AnimatedRoutes = () => {
         <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Home />} />
-                <Route path="/hot" element={<GenericPage title="热门博客" />} />
+                <Route path="/hot" element={<HotBlogs />} />
+                <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/photos" element={<GenericPage title="摄影日记" />} />
                 <Route path="/tools" element={<GenericPage title="工具集" />} />
                 <Route path="/about" element={<About />} />

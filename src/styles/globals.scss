@@ -27,13 +27,15 @@ $cursor-pointer: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBo
   --glass-border: rgba(208, 215, 222, 0.5);
 }
 
-body {
+html, body {
   margin: 0;
   padding: 0;
   background-color: var(--bg-color);
   color: var(--text-primary);
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
+  width: 100%;
+  position: relative; // Ensure no overflow from absolute children
   cursor: $cursor-default;
 }
 

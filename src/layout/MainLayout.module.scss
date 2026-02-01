@@ -1,16 +1,23 @@
 .container {
   position: relative;
-  width: 100vw;
+  width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 100%; // Allowed Home to control width (was 1800px)
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 6rem 2rem 2rem; // 4rem navbar + 2rem gap
   color: var(--text-primary);
+
+  @media (max-width: 768px) {
+    padding: 5.5rem 1rem 2rem; // Adjusted for mobile navbar
+  }
 }

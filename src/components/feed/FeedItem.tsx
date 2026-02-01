@@ -1,7 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import ts from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
+import js from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
+import rst from 'react-syntax-highlighter/dist/esm/languages/prism/rust';
+import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
+import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
+import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
+import { useTheme } from '../../context/ThemeContext';
 import styles from './Feed.module.scss';
 import type { FeedItemData } from './data';
+
+// Register languages
+SyntaxHighlighter.registerLanguage('typescript', ts);
+SyntaxHighlighter.registerLanguage('javascript', js);
+SyntaxHighlighter.registerLanguage('rust', rst);
+SyntaxHighlighter.registerLanguage('css', css);
+SyntaxHighlighter.registerLanguage('bash', bash);
+SyntaxHighlighter.registerLanguage('json', json);
 
 // Icons (Simple SVG inline for now)
 const HeartIcon = () => (
@@ -18,6 +37,9 @@ const MessageIcon = () => (
 
 const FeedItem: React.FC<{ item: FeedItemData; onImageClick?: (src: string) => void }> = ({ item, onImageClick }) => {
   const { author, content, stats, type, publishDate } = item;
+  const { theme } = useTheme();
+  
+  const syntaxTheme = theme === 'dark' ? vscDarkPlus : oneLight;
 
   // Determine image grid class
   let gridClass = styles.imageGrid;
@@ -41,10 +63,53 @@ const FeedItem: React.FC<{ item: FeedItemData; onImageClick?: (src: string) => v
             <span className={styles.date}>{publishDate}</span>
         </div>
 
-        {/* Text Content */}
-        {content.text && <div className={styles.textContent}>{content.text}</div>}
+        {/* Text Content - Render Markdown for non-blogs only */}
+        {content.text && type !== 'blog' && (
+            <div className={styles.textContent}>
+                <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                        // Remove img handling here to avoid duplicates if images are separate
+                        // or handle if they are embedded in markdown. 
+                        // Given the structure separates images, let's just render text.
+                        img: ({...props}) => (
+                           // Hide markdown images if we act as if we extracted them? 
+                           // But content.images is provided separately.
+                           // Let's assume markdown text might have inline images we want to show?
+                           // Or mostly text? The user screenshot has code.
+                           <img {...props} style={{maxWidth: '100%', borderRadius: '8px'}} loading="lazy" />
+                        ),
+                        code({inline, className, children, ...props}: any) {
+                          const match = /language-(\w+)/.exec(className || '');
+                          return !inline && match ? (
+                            <SyntaxHighlighter
+                              style={syntaxTheme}
+                              language={match[1]}
+                              PreTag="div"
+                              {...props}
+                              customStyle={{ margin: '1rem 0', borderRadius: '8px', fontSize: '0.9rem' }}
+                            >
+                              {String(children).replace(/\n$/, '')}
+                            </SyntaxHighlighter>
+                          ) : (
+                            <code className={className} {...props} style={{ background: 'rgba(128,128,128,0.2)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontFamily: 'monospace' }}>
+                              {children}
+                            </code>
+                          );
+                        }
+                    }}
+                >
+                    {content.text}
+                </ReactMarkdown>
+            </div>
+        )}
 
-        {/* Blog Specific Content */}
+        {/* Blog Specific Content (If type is blog, usually text is summary, but we just rendered it above?)
+            Actually, if type === 'blog', maybe we shouldn't render styles.textContent above IF it duplicates?
+            Usually feed items have either main text OR a blog card.
+            Let's keep logic: if text exists, render it.
+            But wait, the user complaint implies the text IS visible but raw.
+        */}
         {type === 'blog' && (
             <div className={styles.blogCard}>
                 {content.images && content.images[0] && (
@@ -56,7 +121,10 @@ const FeedItem: React.FC<{ item: FeedItemData; onImageClick?: (src: string) => v
                     />
                 )}
                 <h3>{content.title}</h3>
-                <p>{content.text}</p> {/* Summary inside card usually for blogs */}
+                {/* For blog card summary, we might want to strip markdown or just show text. 
+                    Let's leave it as is for now, it's just a summary. 
+                */}
+                <p>{content.text}</p> 
             </div>
         )}
 

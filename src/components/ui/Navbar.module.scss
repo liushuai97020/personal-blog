@@ -5,19 +5,23 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 4rem; // 64px
-  z-index: 1002; // Ensure Navbar is on top of Overlay (1001)
+  height: 4rem; 
+  z-index: 2000; // Increased z-index to be sure
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
   
-  // Custom Glassmorphism for Navbar
-  background: rgba(var(--bg-rgb), 0.6); // Fallback if variable doesn't exist
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--glass-border);
   transition: background 0.3s ease, border-color 0.3s ease;
+  transform: translateZ(0); // Force hardware acceleration
+  -webkit-transform: translateZ(0);
+  
+  // Prevent content shift
+  contain: layout;
 
   @include mobile {
     padding: 0 1rem;
@@ -30,9 +34,9 @@
   font-weight: 700;
   color: var(--text-primary);
   text-decoration: none;
-  background: linear-gradient(135deg, var(--accent-color), #a371f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: var(--accent-color);
+  background-clip: text;
+  color: transparent;
   cursor: pointer;
 }
 
